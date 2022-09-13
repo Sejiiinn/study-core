@@ -14,13 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 public class LogDemoController {
 
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) throws InterruptedException {
-        MyLogger myLogger = myLoggerProvider.getObject();
         String requestURL = request.getRequestURL().toString();
+
+        System.out.println("myLogger = " + myLogger.getClass()); // 스프링이 가짜 프록시 객체를 만들어서 주입하는 것을 확인 가능. 실제 사용 시 진짜 Bean 을 불러옴
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
